@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Example-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="PerimeterMenu_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" userLabel="Example" customClass="ViewController" customModule="PerimeterMenu_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -22,31 +22,34 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gnw-5z-rTa" customClass="PerimeterMenu" customModule="PerimeterMenu">
-                                <rect key="frame" x="137" y="303.5" width="100" height="60"/>
+                                <rect key="frame" x="152" y="308.5" width="70" height="50"/>
                                 <color key="backgroundColor" red="0.99903076889999998" green="0.71511645619999997" blue="0.29417385410000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="KiR-Fx-wFc"/>
-                                    <constraint firstAttribute="width" constant="100" id="Yog-tB-tK4"/>
+                                    <constraint firstAttribute="width" constant="70" id="DsY-Qe-U3B"/>
+                                    <constraint firstAttribute="height" constant="50" id="q9S-IJ-HuG"/>
                                 </constraints>
-                                <state key="normal" title="Menu"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Menu">
+                                    <color key="titleColor" red="0.0" green="0.58146065469999997" blue="0.25178939099999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <state key="highlighted">
                                     <color key="titleColor" red="0.99156361818313599" green="0.074455954134464264" blue="0.0066970689222216606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="0.0"/>
+                                        <real key="value" value="2"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.0" green="0.58146065469999997" blue="0.25178939099999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="value" red="1" green="0.47411475139999998" blue="0.18163018210000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="36"/>
+                                        <real key="value" value="25"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="itemsCount">
                                         <integer key="value" value="3"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="distanceFromButton">
-                                        <real key="value" value="26"/>
+                                        <real key="value" value="32"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="itemDimensionSize">
                                         <real key="value" value="60"/>
@@ -58,9 +61,13 @@
                                         <real key="value" value="195"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="menuItemCornerRadius">
-                                        <real key="value" value="29"/>
+                                        <real key="value" value="30"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isExpanded" value="YES"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="datasource" destination="vXZ-lx-hvc" id="38r-fM-uPZ"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

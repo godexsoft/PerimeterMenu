@@ -16,10 +16,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        menu.datasource = self
         menu.onButtonTap = { _ in
             return true
         }
+        
         menu.onButtonLongPress = { _ in
             return true
         }
