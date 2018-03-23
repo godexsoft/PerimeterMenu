@@ -22,8 +22,8 @@ pod 'PerimeterMenu'
 
 ## Author
 
-# Alex Kremer, godexsoft at gmail dot com
-# Valera Chevtaev, myltik at gmail dot com
+- Alex Kremer, godexsoft at gmail dot com
+- Valera Chevtaev, myltik at gmail dot com
 
 ## License
 
