@@ -11,6 +11,7 @@
 		242D78C22064945300080B13 /* PerimeterMenuDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242D78C12064945300080B13 /* PerimeterMenuDatasource.swift */; };
 		2431939D20649A8E00E42725 /* PerimeterMenuContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2431939C20649A8E00E42725 /* PerimeterMenuContainerView.swift */; };
 		2431939F20649D5F00E42725 /* PerimeterMenuBluringContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2431939E20649D5F00E42725 /* PerimeterMenuBluringContainerView.swift */; };
+		243193A1206555AF00E42725 /* PerimeterMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243193A0206555AF00E42725 /* PerimeterMenuDelegate.swift */; };
 		6FD201CB038887321F558E983EB85888 /* Pods-PerimeterMenu_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 793A3F60161B8AADF28CBB67A8674D2D /* Pods-PerimeterMenu_Tests-dummy.m */; };
 		8A4B7AF36B90FCDC7D3297DB40670183 /* Pods-PerimeterMenu_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E0296D36705DD1170B120DC26953346 /* Pods-PerimeterMenu_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8ADA46CD505AB758D6415140A1A80123 /* Pods-PerimeterMenu_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CED2657A5FDEA8B1C54733FF33217A /* Pods-PerimeterMenu_Example-dummy.m */; };
@@ -40,6 +41,7 @@
 		242D78C12064945300080B13 /* PerimeterMenuDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PerimeterMenuDatasource.swift; path = PerimeterMenu/Classes/PerimeterMenuDatasource.swift; sourceTree = "<group>"; };
 		2431939C20649A8E00E42725 /* PerimeterMenuContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerimeterMenuContainerView.swift; sourceTree = "<group>"; };
 		2431939E20649D5F00E42725 /* PerimeterMenuBluringContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerimeterMenuBluringContainerView.swift; sourceTree = "<group>"; };
+		243193A0206555AF00E42725 /* PerimeterMenuDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PerimeterMenuDelegate.swift; path = PerimeterMenu/Classes/PerimeterMenuDelegate.swift; sourceTree = "<group>"; };
 		272AC41998DF63901C1045221DD6EF7F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F2CA3C5ED781870F7E6DDE27A02D1D7 /* Pods-PerimeterMenu_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-PerimeterMenu_Tests.modulemap"; sourceTree = "<group>"; };
 		38263A9674496805E4A55D8CC39A831A /* PerimeterMenu-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PerimeterMenu-prefix.pch"; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 			children = (
 				2431939B20649A8E00E42725 /* Internal */,
 				242D78C12064945300080B13 /* PerimeterMenuDatasource.swift */,
+				243193A0206555AF00E42725 /* PerimeterMenuDelegate.swift */,
 				F01563C0F16C2981CC0103795693D071 /* PerimeterMenu.swift */,
 				3191E853F1882BCC3C7FEFC02F00BAC4 /* Support Files */,
 			);
@@ -344,6 +347,7 @@
 				2431939F20649D5F00E42725 /* PerimeterMenuBluringContainerView.swift in Sources */,
 				2431939D20649A8E00E42725 /* PerimeterMenuContainerView.swift in Sources */,
 				242D78C22064945300080B13 /* PerimeterMenuDatasource.swift in Sources */,
+				243193A1206555AF00E42725 /* PerimeterMenuDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -22,10 +22,14 @@
 
 import Foundation
 
-@objc public protocol PerimeterMenuDatasource: class {
+@objc public protocol PerimeterMenuDelegate: class {
     
-    func perimeterMenu(_ menu: PerimeterMenu,
-                       configurationFor itemPosition: Int,
-                       withButton button: UIButton)
+    @objc optional func perimeterMenu(_ menu: PerimeterMenu,
+                       didSelectItem button: UIButton,
+                       at position: Int)
     
+    @objc optional func perimeterMenu(_ menu: PerimeterMenu,
+                       hoveringOver button: UIButton,
+                       at position: Int)    
 }
+

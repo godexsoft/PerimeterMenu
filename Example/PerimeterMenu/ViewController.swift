@@ -30,9 +30,27 @@ extension ViewController: PerimeterMenuDatasource {
     func perimeterMenu(_ menu: PerimeterMenu,
                        configurationFor itemPosition: Int,
                        withButton button: UIButton) {
-        print("Asked to configure item \(itemPosition)")
         
         button.setTitle("xyu\(itemPosition)", for: .normal)
-        button.backgroundColor = .green
+        
+        let bg = CAGradientLayer()
+        
+        bg.frame = button.bounds
+        bg.colors = [UIColor.red.cgColor, UIColor.green.cgColor]
+        
+        button.layer.insertSublayer(bg, at: 0) // bg
+        
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.red.cgColor                
+    }
+}
+
+extension ViewController: PerimeterMenuDelegate {
+    func perimeterMenu(_ menu: PerimeterMenu, didSelectItem button: UIButton, at position: Int) {
+        print("Button hit at \(position)")
+    }
+    
+    func perimeterMenu(_ menu: PerimeterMenu, hoveringOver button: UIButton, at position: Int) {
+        print("Hovering over \(position)")
     }
 }

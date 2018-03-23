@@ -24,6 +24,7 @@
 public class PerimeterMenu: UIButton {
 
     /// XYU
+    public typealias VoidBlock = () -> Void
     public typealias ActionCallback = (_ sender: UIButton) -> Bool
     
     private enum State {
@@ -40,12 +41,21 @@ public class PerimeterMenu: UIButton {
     /// Datasource is used to configure the menu buttons
     @IBOutlet weak public var datasource: PerimeterMenuDatasource?
     
+    /// Delegate is used to respond to actions
+    @IBOutlet weak public var delegate: PerimeterMenuDelegate?
+    
     /// Callback for button tap. Implement and return false if you want to customize the action for it and not have the default action happen.
     public var onButtonTap: ActionCallback?
     
     /// Callback for long button press. Implement and return false if you want to customize the action for it and not have the default action happen.
     public var onButtonLongPress: ActionCallback?
 
+    /// Call this method if you want to reconfigure your menu buttons from datasource
+    public func reconfigure() {
+        configured = false
+        regenerateMenu()
+    }
+    
     // MARK: - Inspectables
 
     /// Sets menu to expanded or collapsed. Used in Storyboard to design the menu.
@@ -134,6 +144,8 @@ public class PerimeterMenu: UIButton {
         }
     }
     
+    // TODO: add animation duration, animation style (fade, spring, etc.)
+    
     // MARK: - Init
     
     public override init(frame: CGRect) {
@@ -149,11 +161,18 @@ public class PerimeterMenu: UIButton {
     private var tapGesture: UITapGestureRecognizer!
     private var longPressGesture: UILongPressGestureRecognizer!
     
+    private func enableGestures(_ enable: Bool) {
+        tapGesture.isEnabled = enable
+        longPressGesture.isEnabled = enable
+    }
+    
     private func commonInit() {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTap))
+        tapGesture.cancelsTouchesInView = false
         addGestureRecognizer(tapGesture)
         
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(onLongPress))
+        longPressGesture.cancelsTouchesInView = false
         addGestureRecognizer(longPressGesture)
     }
     
@@ -170,6 +189,26 @@ public class PerimeterMenu: UIButton {
             case .began:
                 menuState = menuState.inversed
                 showMenu(for: menuState, animated: true)
+            
+            case .changed:
+                let location = sender.location(ofTouch: 0, in: containerView)
+                if let button = containerView.hitTest(location, with: nil) as? UIButton,
+                    let index = menu.index(of: button) {
+                    
+                    delegate?.perimeterMenu?(self, hoveringOver: button, at: index)
+                }
+            
+            case .ended:
+                let location = sender.location(ofTouch: 0, in: containerView)
+                if let button = containerView.hitTest(location, with: nil) as? UIButton,
+                    let index = menu.index(of: button) {
+                    
+                    delegate?.perimeterMenu?(self, didSelectItem: button, at: index)
+                }
+                
+                menuState = menuState.inversed
+                showMenu(for: menuState, animated: true)
+            
             default:
                 return
         }
@@ -207,6 +246,8 @@ public class PerimeterMenu: UIButton {
     
     fileprivate var angleDistance: CGFloat = 0.0
     
+    fileprivate var configured = false
+    
     // MARK: - Implementation
     
     private func regenerateContainer() {
@@ -232,8 +273,10 @@ public class PerimeterMenu: UIButton {
     }
     
     private func regenerateMenu() {
-        print("regenerateMenu called")
         regenerateContainer()
+        
+        // if already configured the buttons - just skip this step
+        guard !configured else { return }
         
         if let angle = angleBetweenItems {
             angleDistance = CGFloat(angle.floatValue)
@@ -267,10 +310,21 @@ public class PerimeterMenu: UIButton {
                 button.layer.cornerRadius = menuItemCornerRadius
                 button.layer.masksToBounds = true
                 
+                button.addTarget(self, action: #selector(itemTap), for: .touchUpInside)
+                
                 containerView.addSubview(button)
                 menu.append(button)
             }
         }
+        
+        if let _ = datasource {
+            // datasource was present while configuring buttons so no need to do it again
+            configured = true
+        }
+    }
+    
+    @objc private func itemTap(sender: UIButton) {
+        print("TAPPED")
     }
     
     private var buttonsPositions: [CGPoint] {
@@ -317,30 +371,43 @@ public class PerimeterMenu: UIButton {
     }
     
     private func expandMenu(animated: Bool) {
-        if animated {
-            UIView.animate(withDuration: 0.5) {
-                for (index, button) in self.menu.enumerated() {
-                    button.center = self.buttonsPositions[index]
-                }
-            }
-        } else {
+        print("expand menu")
+        let animations: VoidBlock = {
             for (index, button) in self.menu.enumerated() {
                 button.center = self.buttonsPositions[index]
+                button.alpha = 1.0
             }
+        }
+
+        self.containerView.isHidden = false
+        if animated {
+            UIView.animate(withDuration: 0.5, animations: animations)
+        } else {
+            animations()
         }
     }
     
     private func collapseMenu(animated: Bool) {
-        if animated {
-            UIView.animate(withDuration: 0.5) {
-                self.menu.forEach {
-                    $0.center = self.centerPoint
-                }
-            }
-        } else {
+        print("collapse menu")
+        let animations: VoidBlock = {
+            self.enableGestures(false)
             self.menu.forEach {
                 $0.center = self.centerPoint
+                $0.alpha = 0.0
             }
+        }
+        let completion: (Bool) -> Void = { _ in
+            self.containerView.isHidden = true
+            self.enableGestures(true)
+        }
+        
+        if animated {
+            UIView.animate(withDuration: 0.5,
+                           animations: animations,
+                           completion: completion)
+        } else {
+            animations()
+            completion(true)
         }
     }
     
