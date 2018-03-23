@@ -1,0 +1,22 @@
+{
+  "name": "PerimeterMenu",
+  "version": "0.1.0",
+  "summary": "A short description of PerimeterMenu.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/godexsoft/PerimeterMenu",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "godexsoft": "godexsoft@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/godexsoft/PerimeterMenu.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "PerimeterMenu/Classes/**/*"
+}

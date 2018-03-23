@@ -7,18 +7,32 @@
 //
 
 import UIKit
+import PerimeterMenu
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var menu: PerimeterMenu!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        menu.datasource = self
+        menu.onButtonTap = { _ in
+            return true
+        }
+        menu.onButtonLongPress = { _ in
+            return true
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 }
 
+extension ViewController: PerimeterMenuDatasource {
+    func perimeterMenu(_ menu: PerimeterMenu,
+                       configurationFor itemPosition: Int,
+                       withButton button: UIButton) {
+        print("Asked to configure item \(itemPosition)")
+        
+        button.setTitle("xyu\(itemPosition)", for: .normal)
+        button.backgroundColor = .green
+    }
+}

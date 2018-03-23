@@ -1,0 +1,6 @@
+framework module PerimeterMenu {
+  umbrella header "PerimeterMenu-umbrella.h"
+
+  export *
+  module * { export * }
+}
