@@ -12,6 +12,10 @@
 		2431939D20649A8E00E42725 /* PerimeterMenuContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2431939C20649A8E00E42725 /* PerimeterMenuContainerView.swift */; };
 		2431939F20649D5F00E42725 /* PerimeterMenuBluringContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2431939E20649D5F00E42725 /* PerimeterMenuBluringContainerView.swift */; };
 		243193A1206555AF00E42725 /* PerimeterMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243193A0206555AF00E42725 /* PerimeterMenuDelegate.swift */; };
+		243193A42065716200E42725 /* MenuAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243193A32065716200E42725 /* MenuAnimator.swift */; };
+		243193A6206571CD00E42725 /* LinearAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243193A5206571CD00E42725 /* LinearAnimator.swift */; };
+		243193A82065727300E42725 /* AnimatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243193A72065727300E42725 /* AnimatorFactory.swift */; };
+		243193AA206573A900E42725 /* SpringAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 243193A9206573A900E42725 /* SpringAnimator.swift */; };
 		6FD201CB038887321F558E983EB85888 /* Pods-PerimeterMenu_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 793A3F60161B8AADF28CBB67A8674D2D /* Pods-PerimeterMenu_Tests-dummy.m */; };
 		8A4B7AF36B90FCDC7D3297DB40670183 /* Pods-PerimeterMenu_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E0296D36705DD1170B120DC26953346 /* Pods-PerimeterMenu_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8ADA46CD505AB758D6415140A1A80123 /* Pods-PerimeterMenu_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CED2657A5FDEA8B1C54733FF33217A /* Pods-PerimeterMenu_Example-dummy.m */; };
@@ -42,6 +46,10 @@
 		2431939C20649A8E00E42725 /* PerimeterMenuContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerimeterMenuContainerView.swift; sourceTree = "<group>"; };
 		2431939E20649D5F00E42725 /* PerimeterMenuBluringContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerimeterMenuBluringContainerView.swift; sourceTree = "<group>"; };
 		243193A0206555AF00E42725 /* PerimeterMenuDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PerimeterMenuDelegate.swift; path = PerimeterMenu/Classes/PerimeterMenuDelegate.swift; sourceTree = "<group>"; };
+		243193A32065716200E42725 /* MenuAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuAnimator.swift; sourceTree = "<group>"; };
+		243193A5206571CD00E42725 /* LinearAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearAnimator.swift; sourceTree = "<group>"; };
+		243193A72065727300E42725 /* AnimatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatorFactory.swift; sourceTree = "<group>"; };
+		243193A9206573A900E42725 /* SpringAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringAnimator.swift; sourceTree = "<group>"; };
 		272AC41998DF63901C1045221DD6EF7F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F2CA3C5ED781870F7E6DDE27A02D1D7 /* Pods-PerimeterMenu_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-PerimeterMenu_Tests.modulemap"; sourceTree = "<group>"; };
 		38263A9674496805E4A55D8CC39A831A /* PerimeterMenu-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PerimeterMenu-prefix.pch"; sourceTree = "<group>"; };
@@ -121,11 +129,23 @@
 		2431939B20649A8E00E42725 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				243193A22065714D00E42725 /* Animations */,
 				2431939C20649A8E00E42725 /* PerimeterMenuContainerView.swift */,
 				2431939E20649D5F00E42725 /* PerimeterMenuBluringContainerView.swift */,
 			);
 			name = Internal;
 			path = PerimeterMenu/Classes/Internal;
+			sourceTree = "<group>";
+		};
+		243193A22065714D00E42725 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				243193A32065716200E42725 /* MenuAnimator.swift */,
+				243193A5206571CD00E42725 /* LinearAnimator.swift */,
+				243193A9206573A900E42725 /* SpringAnimator.swift */,
+				243193A72065727300E42725 /* AnimatorFactory.swift */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 		3191E853F1882BCC3C7FEFC02F00BAC4 /* Support Files */ = {
@@ -343,9 +363,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAA749175B598994470AB762DDFAD962 /* PerimeterMenu-dummy.m in Sources */,
+				243193A82065727300E42725 /* AnimatorFactory.swift in Sources */,
 				B444DA4DA2EC83011BB740E854FCA11B /* PerimeterMenu.swift in Sources */,
+				243193AA206573A900E42725 /* SpringAnimator.swift in Sources */,
+				243193A42065716200E42725 /* MenuAnimator.swift in Sources */,
 				2431939F20649D5F00E42725 /* PerimeterMenuBluringContainerView.swift in Sources */,
 				2431939D20649A8E00E42725 /* PerimeterMenuContainerView.swift in Sources */,
+				243193A6206571CD00E42725 /* LinearAnimator.swift in Sources */,
 				242D78C22064945300080B13 /* PerimeterMenuDatasource.swift in Sources */,
 				243193A1206555AF00E42725 /* PerimeterMenuDelegate.swift in Sources */,
 			);

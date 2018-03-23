@@ -22,18 +22,21 @@
 
 import Foundation
 
-@objc public protocol PerimeterMenuDelegate: class {
-    
-    @objc optional func perimeterMenu(_ menu: PerimeterMenu,
-                                      didSelectItem button: UIButton,
-                                      at position: Int)
-    
-    @objc optional func perimeterMenu(_ menu: PerimeterMenu,
-                                      didStartHoveringOver button: UIButton,
-                                      at position: Int)
-
-    @objc optional func perimeterMenu(_ menu: PerimeterMenu,
-                                      didEndHoveringOver button: UIButton,
-                                      at position: Int)
+enum AnimationStyle: Int {
+    case linear = 0
+    case spring = 1
 }
 
+struct AnimatorFactory {
+    
+    private init() {}
+    
+    static func createAnimator(forStyle style: AnimationStyle) -> MenuAnimator {
+        switch style {
+        case .linear:
+            return LinearAnimator()
+        case .spring:
+            return SpringAnimator()
+        }
+    }
+}

@@ -20,20 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import Foundation
+import UIKit
 
-@objc public protocol PerimeterMenuDelegate: class {
-    
-    @objc optional func perimeterMenu(_ menu: PerimeterMenu,
-                                      didSelectItem button: UIButton,
-                                      at position: Int)
-    
-    @objc optional func perimeterMenu(_ menu: PerimeterMenu,
-                                      didStartHoveringOver button: UIButton,
-                                      at position: Int)
+typealias VoidBlock = () -> Void
+typealias AnimationCompletionBlock = (_ finished: Bool) -> Void
 
-    @objc optional func perimeterMenu(_ menu: PerimeterMenu,
-                                      didEndHoveringOver button: UIButton,
-                                      at position: Int)
+protocol MenuAnimator {
+    func animate(withDuration duration: TimeInterval,
+                 animations: @escaping VoidBlock,
+                 completion: AnimationCompletionBlock?)
 }
-

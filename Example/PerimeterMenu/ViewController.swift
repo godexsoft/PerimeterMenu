@@ -46,11 +46,21 @@ extension ViewController: PerimeterMenuDatasource {
 }
 
 extension ViewController: PerimeterMenuDelegate {
-    func perimeterMenu(_ menu: PerimeterMenu, didSelectItem button: UIButton, at position: Int) {
-        print("Button hit at \(position)")
+    func perimeterMenu(_ menu: PerimeterMenu,
+                       didSelectItem button: UIButton,
+                       at position: Int) {
+        print("did select at \(position)")
     }
     
-    func perimeterMenu(_ menu: PerimeterMenu, hoveringOver button: UIButton, at position: Int) {
-        print("Hovering over \(position)")
+    func perimeterMenu(_ menu: PerimeterMenu,
+                       didStartHoveringOver button: UIButton,
+                       at position: Int) {
+        print("start hovering over \(position)")
+    }
+    
+    func perimeterMenu(_ menu: PerimeterMenu,
+                       didEndHoveringOver button: UIButton,
+                       at position: Int) {
+        print("end hovering over \(position)")
     }
 }
