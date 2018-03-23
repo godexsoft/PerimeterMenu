@@ -23,11 +23,11 @@
 @IBDesignable
 public class PerimeterMenu: UIButton {
 
-    /// XYU
-    public typealias VoidBlock = () -> Void
+    // MARK: - Types
+
     public typealias ActionCallback = (_ sender: UIButton) -> Bool
     
-    private enum State {
+    enum State {
         case expanded
         case collapsed
         
@@ -60,7 +60,7 @@ public class PerimeterMenu: UIButton {
     
     // MARK: - Inspectables
 
-    private var internalAnimationStyle: AnimationStyle = .linear
+    var internalAnimationStyle: AnimationStyle = .linear
     
     @IBInspectable
     public var animationStyle: Int {
@@ -163,8 +163,6 @@ public class PerimeterMenu: UIButton {
         }
     }
     
-    // TODO: add animation duration, animation style (fade, spring, etc.)
-    
     // MARK: - Init
     
     public override init(frame: CGRect) {
@@ -186,14 +184,38 @@ public class PerimeterMenu: UIButton {
         longPressGesture.cancelsTouchesInView = false
         addGestureRecognizer(longPressGesture)
     }
-    
+
+    // MARK: - Properties
+
+    private var itemSize: CGSize {
+        return CGSize(width: itemDimensionSize, height: itemDimensionSize)
+    }
+
+    var menu = [UIButton]()
+    var containerView: UIView!
+
+    private var angleDistance: CGFloat = 0.0
+
+    private var configured = false
+
+    private var menuState: State = .collapsed {
+        didSet {
+            guard menuState != oldValue else { return }
+        }
+    }
+
+    private func invertState(animated: Bool) {
+        menuState = menuState.inversed
+        showMenu(for: menuState, animated: animated)
+    }
+
     // MARK: - Gestures
     
     private var lastHoveringButton: UIButton?
     private var tapGesture: UITapGestureRecognizer!
     private var longPressGesture: UILongPressGestureRecognizer!
     
-    private func enableGestures(_ enable: Bool) {
+    func enableGestures(_ enable: Bool) {
         tapGesture.isEnabled = enable
         longPressGesture.isEnabled = enable
     }
@@ -266,32 +288,7 @@ public class PerimeterMenu: UIButton {
         
         self.layer.masksToBounds = true
     }
-    
-    
-    // MARK: - Privates
-    
-    private var itemSize: CGSize {
-        return CGSize(width: itemDimensionSize, height: itemDimensionSize)
-    }
-    
-    fileprivate var menu = [UIButton]()
-    fileprivate var containerView: UIView!
-    
-    fileprivate var angleDistance: CGFloat = 0.0
-    
-    fileprivate var configured = false
-    
-    private var menuState: State = .collapsed {
-        didSet {
-            guard menuState != oldValue else { return }
-        }
-    }
-    
-    private func invertState(animated: Bool) {
-        menuState = menuState.inversed
-        showMenu(for: menuState, animated: animated)
-    }
-    
+
     // MARK: - Container view
     
     private func regenerateContainer() {
@@ -369,19 +366,17 @@ public class PerimeterMenu: UIButton {
         }
     }
     
-    private var buttonsPositions: [CGPoint] {
+    var buttonsPositions: [CGPoint] {
         var positions: [CGPoint] = []
         
         for i in 0..<itemsCount {
-            
             let p: CGPoint
-            
             if menuState == .expanded {
                 let angle = startAngle + angleDistance * CGFloat(i)
                 let radius = itemSize.width/2 + distanceFromButton + bounds.width/2
                 p = pointInCircle(radius: radius, angle: angle)
             } else {
-                p = self.centerPoint
+                p = centerPoint
             }
             positions.append(p)
         }
@@ -390,70 +385,12 @@ public class PerimeterMenu: UIButton {
     }
     
     private func pointInCircle(radius: CGFloat, angle degrees: CGFloat) ->  CGPoint {
-        let cosValue = cos( degrees * .pi / 180.0)
-        let sinValue = sin( degrees * .pi / 180.0)
+        let cosValue = cos(degrees * .pi / 180.0)
+        let sinValue = sin(degrees * .pi / 180.0)
         
         let x = (radius * cosValue) + containerView.bounds.width/2
         let y = (radius * sinValue) + containerView.bounds.height/2
         
         return CGPoint(x: x, y: y)
-    }
-    
-    // MARK: - Animations
-    
-    private var isAnimating = false
-    
-    private func showMenu(for state: State, animated: Bool) {
-        switch state {
-        case .expanded:
-            expandMenu(animated: animated)
-        case .collapsed:
-            collapseMenu(animated: animated)
-        }
-    }
-    
-    private func expandMenu(animated: Bool) {
-        print("expand menu")
-        let animations: VoidBlock = {
-            for (index, button) in self.menu.enumerated() {
-                button.center = self.buttonsPositions[index]
-                button.alpha = 1.0
-            }
-        }
-
-        self.containerView.isHidden = false
-        let duration = animated ? animationDuration : 0
-        animator.animate(withDuration: duration,
-                         animations: animations,
-                         completion: nil)
-    }
-    
-    private func collapseMenu(animated: Bool) {
-        print("collapse menu")
-        let animations: VoidBlock = {
-            self.enableGestures(false)
-            self.menu.forEach {
-                $0.center = self.centerPoint
-                $0.alpha = 0.0
-            }
-        }
-        let completion: (Bool) -> Void = { _ in
-            self.containerView.isHidden = true
-            self.enableGestures(true)
-        }
-        
-        let duration = animated ? animationDuration : 0
-        animator.animate(withDuration: duration,
-                         animations: animations,
-                         completion: completion)
-    }
-    
-    private var animator: MenuAnimator {
-        return AnimatorFactory.createAnimator(forStyle: internalAnimationStyle)
-    }
-    
-    private var centerPoint: CGPoint {
-        return CGPoint(x: containerView.bounds.width/2,
-                       y: containerView.bounds.height/2)
     }
 }
