@@ -227,7 +227,17 @@ public class PerimeterMenu: UIButton {
     
     @objc private func onLongPress(sender: UILongPressGestureRecognizer) {
         guard onButtonLongPress?(self) ?? false else { return }
-        
+
+        let endLastButtonHoveringIfNeeded: VoidBlock = {
+            if let button = self.lastHoveringButton,
+                let lastHoveringButtonIndex = self.menu.index(of: button) {
+                self.delegate?.perimeterMenu?(self,
+                                              didEndHoveringOver: button,
+                                              at: lastHoveringButtonIndex)
+                self.lastHoveringButton = nil
+            }
+        }
+
         switch sender.state {
             case .began:
                 lastHoveringButton = nil
@@ -237,19 +247,15 @@ public class PerimeterMenu: UIButton {
                 let location = sender.location(ofTouch: 0, in: containerView)
                 if let button = containerView.hitTest(location, with: nil) as? UIButton,
                     let index = menu.index(of: button) {
-                    
                     if button != lastHoveringButton {
+                        endLastButtonHoveringIfNeeded()
                         lastHoveringButton = button
                         delegate?.perimeterMenu?(self,
                                                  didStartHoveringOver: button,
                                                  at: index)
                     }
-                } else if let button = lastHoveringButton,
-                    let lastHoveringButtonIndex = menu.index(of: button) {
-                    delegate?.perimeterMenu?(self,
-                                             didEndHoveringOver: button,
-                                             at: lastHoveringButtonIndex)
-                    lastHoveringButton = nil
+                } else {
+                    endLastButtonHoveringIfNeeded()
                 }
 
             case .ended:
@@ -259,7 +265,8 @@ public class PerimeterMenu: UIButton {
                     
                     delegate?.perimeterMenu?(self, didSelectItem: button, at: index)
                 }
-                
+
+                endLastButtonHoveringIfNeeded()
                 lastHoveringButton = nil
                 invertState(animated: true)
             

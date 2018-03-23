@@ -56,11 +56,19 @@ extension ViewController: PerimeterMenuDelegate {
                        didStartHoveringOver button: UIButton,
                        at position: Int) {
         print("start hovering over \(position)")
+
+        UIView.animate(withDuration: 0.3) {
+            button.transform = CGAffineTransform(scaleX: 1.4, y: 1.4)
+        }
     }
     
     func perimeterMenu(_ menu: PerimeterMenu,
                        didEndHoveringOver button: UIButton,
                        at position: Int) {
         print("end hovering over \(position)")
+
+        UIView.animate(withDuration: 0.3) {
+            button.transform = .identity
+        }
     }
 }
