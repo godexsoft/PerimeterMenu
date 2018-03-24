@@ -26,27 +26,27 @@ public class PerimeterMenu: UIButton {
     // MARK: - Types
 
     public typealias ActionCallback = (_ sender: UIButton) -> Bool
-    
+
     enum State {
         case expanded
         case collapsed
-        
+
         var inversed: State {
             return self == .expanded ? .collapsed : .expanded
         }
     }
-    
+
     // MARK: - Publics
-    
+
     /// Datasource is used to configure the menu buttons
     @IBOutlet weak public var datasource: PerimeterMenuDatasource?
-    
+
     /// Delegate is used to respond to actions
     @IBOutlet weak public var delegate: PerimeterMenuDelegate?
-    
+
     /// Callback for button tap. Implement and return false if you want to customize the action for it and not have the default action happen.
     public var onButtonTap: ActionCallback?
-    
+
     /// Callback for long button press. Implement and return false if you want to customize the action for it and not have the default action happen.
     public var onButtonLongPress: ActionCallback?
 
@@ -57,11 +57,11 @@ public class PerimeterMenu: UIButton {
         menu.removeAll()
         regenerateMenu()
     }
-    
+
     // MARK: - Inspectables
 
     var internalAnimationStyle: AnimationStyle = .linear
-    
+
     @IBInspectable
     public var animationStyle: Int {
         get {
@@ -73,10 +73,10 @@ public class PerimeterMenu: UIButton {
             }
         }
     }
-    
+
     @IBInspectable
     public var animationDuration: Double = 0.33
-    
+
     /// Sets menu to expanded or collapsed. Used in Storyboard to design the menu.
     @IBInspectable
     public var isExpanded: Bool = true {
@@ -85,101 +85,101 @@ public class PerimeterMenu: UIButton {
             showMenu(for: menuState, animated: false)
         }
     }
-    
+
     @IBInspectable
     public var borderWidth: CGFloat = 0 {
         didSet {
             self.layer.borderWidth = borderWidth
         }
     }
-    
+
     @IBInspectable
     public var borderColor: UIColor = UIColor.clear {
         didSet {
             self.layer.borderColor = borderColor.cgColor
         }
     }
-    
+
     @IBInspectable
     public var cornerRadius: CGFloat = 0 {
         didSet {
             self.layer.cornerRadius = cornerRadius
         }
     }
-    
+
     @IBInspectable
     public var menuItemCornerRadius: CGFloat = 0 {
         didSet {
             regenerateMenu()
         }
     }
-    
+
     @IBInspectable
     public var itemsCount: UInt = 3 {
         didSet {
             regenerateMenu()
         }
     }
-    
+
     @IBInspectable
     public var angleBetweenItems: NSNumber? = nil {
         didSet {
             regenerateMenu()
         }
     }
-    
+
     @IBInspectable
     public var startAngle: CGFloat = 180 {
         didSet {
             regenerateMenu()
         }
     }
-    
+
     @IBInspectable
     public var distanceFromButton: CGFloat = 50 {
         didSet {
             regenerateMenu()
         }
     }
-    
+
     @IBInspectable
     public var itemDimensionSize: CGFloat = 30 {
         didSet {
             regenerateMenu()
         }
     }
-    
+
     @IBInspectable
     public var availableAngle: CGFloat = 180 {
         didSet {
             regenerateMenu()
         }
     }
-    
+
     @IBInspectable
     public var hasBlurEffect: Bool = false {
         didSet {
             regenerateMenu()
         }
     }
-    
+
     // MARK: - Init
-    
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
-    
+
     private func commonInit() {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTap))
         tapGesture.cancelsTouchesInView = false
         addGestureRecognizer(tapGesture)
-        
+
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(onLongPress))
         longPressGesture.cancelsTouchesInView = false
         addGestureRecognizer(longPressGesture)
@@ -192,7 +192,13 @@ public class PerimeterMenu: UIButton {
     }
 
     var menu = [UIButton]()
-    var containerView: UIView!
+    lazy var containerView: UIView = {
+        let cv = PerimeterMenuContainerView(frame: containerFrame)
+        cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.isUserInteractionEnabled = true
+        cv.backgroundColor = .clear
+        return cv
+    }()
 
     private var angleDistance: CGFloat = 0.0
 
@@ -210,23 +216,23 @@ public class PerimeterMenu: UIButton {
     }
 
     // MARK: - Gestures
-    
+
     private var lastHoveringButton: UIButton?
     private var tapGesture: UITapGestureRecognizer!
     private var longPressGesture: UILongPressGestureRecognizer!
-    
+
     func enableGestures(_ enable: Bool) {
         tapGesture.isEnabled = enable
         longPressGesture.isEnabled = enable
     }
-    
+
     @objc private func onTap(sender: UITapGestureRecognizer) {
-        guard onButtonTap?(self) ?? false else { return }
+        guard onButtonTap?(self) ?? true else { return }
         invertState(animated: true)
     }
-    
+
     @objc private func onLongPress(sender: UILongPressGestureRecognizer) {
-        guard onButtonLongPress?(self) ?? false else { return }
+        guard onButtonLongPress?(self) ?? true else { return }
 
         let endLastButtonHoveringIfNeeded: VoidBlock = {
             if let button = self.lastHoveringButton,
@@ -239,143 +245,136 @@ public class PerimeterMenu: UIButton {
         }
 
         switch sender.state {
-            case .began:
-                lastHoveringButton = nil
-                invertState(animated: true)
-            
-            case .changed:
-                let location = sender.location(ofTouch: 0, in: containerView)
-                if let button = containerView.hitTest(location, with: nil) as? UIButton,
-                    let index = menu.index(of: button) {
-                    if button != lastHoveringButton {
-                        endLastButtonHoveringIfNeeded()
-                        lastHoveringButton = button
-                        delegate?.perimeterMenu?(self,
-                                                 didStartHoveringOver: button,
-                                                 at: index)
-                    }
-                } else {
+        case .began:
+            lastHoveringButton = nil
+            invertState(animated: true)
+
+        case .changed:
+            let location = sender.location(ofTouch: 0, in: containerView)
+            if let button = containerView.hitTest(location, with: nil) as? UIButton,
+                let index = menu.index(of: button) {
+                if button != lastHoveringButton {
                     endLastButtonHoveringIfNeeded()
+                    lastHoveringButton = button
+                    delegate?.perimeterMenu?(self,
+                                             didStartHoveringOver: button,
+                                             at: index)
                 }
-
-            case .ended:
-                let location = sender.location(ofTouch: 0, in: containerView)
-                if let button = containerView.hitTest(location, with: nil) as? UIButton,
-                    let index = menu.index(of: button) {
-                    
-                    delegate?.perimeterMenu?(self, didSelectItem: button, at: index)
-                }
-
+            } else {
                 endLastButtonHoveringIfNeeded()
-                lastHoveringButton = nil
-                invertState(animated: true)
-            
-            default:
-                return
+            }
+
+        case .ended:
+            let location = sender.location(ofTouch: 0, in: containerView)
+            if let button = containerView.hitTest(location, with: nil) as? UIButton,
+                let index = menu.index(of: button) {
+
+                delegate?.perimeterMenu?(self, didSelectItem: button, at: index)
+            }
+
+            endLastButtonHoveringIfNeeded()
+            lastHoveringButton = nil
+            invertState(animated: true)
+
+        default:
+            return
         }
     }
-    
+
     @objc private func itemTap(sender: UIButton) {
         if let buttonIndex = menu.index(of: sender) {
             invertState(animated: true)
             delegate?.perimeterMenu?(self, didSelectItem: sender, at: buttonIndex)
         }
     }
-    
+
     // MARK: - Layout and draw
-    
+
     public override func draw(_ rect: CGRect) {
         super.draw(rect)
     }
-    
+
     public override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         regenerateMenu()
-        
+
         self.layer.masksToBounds = true
     }
 
     // MARK: - Container view
-    
-    private func regenerateContainer() {
+
+    private var containerFrame: CGRect {
         let containerOrigin = CGPoint(x: frame.origin.x - distanceFromButton - itemSize.width,
                                       y: frame.origin.y - distanceFromButton - itemSize.height)
         let containerSize = CGSize(width: bounds.width + distanceFromButton*2 + itemSize.width*2,
                                    height: bounds.height + distanceFromButton*2 + itemSize.height*2)
-        
-        let containerFrame = CGRect(origin: containerOrigin, size: containerSize)
-        
-        if let cv = containerView {
-            cv.frame = containerFrame
-        } else {
-            let cv = PerimeterMenuContainerView(frame: containerFrame)
-            
-            cv.translatesAutoresizingMaskIntoConstraints = false
-            cv.isUserInteractionEnabled = true
-            cv.backgroundColor = .clear
-            superview?.addSubview(cv)
-            
-            containerView = cv
-        }
+        return CGRect(origin: containerOrigin, size: containerSize)
     }
-    
+
+    private func regenerateContainer() {
+        if let superview = superview, containerView.superview == nil {
+            superview.addSubview(containerView)
+        }
+        containerView.frame = containerFrame
+    }
+
     // MARK: - Menu view
-    
+
     private func regenerateMenu() {
         regenerateContainer()
-        
+
         // if already configured the buttons - just skip this step
         guard !configured else { return }
-        
+
         if let angle = angleBetweenItems {
             angleDistance = CGFloat(angle.floatValue)
         } else {
             angleDistance = availableAngle / CGFloat(itemsCount == 1 ? 1 : itemsCount-1)
         }
-        
+
         for (index, buttonPosition) in buttonsPositions.enumerated() {
-            
+
             if index < menu.count {
                 let button = menu[index]
-                
+
                 datasource?.perimeterMenu(self, configurationFor: index, withButton: button)
 
                 button.frame = CGRect(origin: .zero, size: itemSize)
                 button.center = buttonPosition
-                
+
                 button.layer.cornerRadius = menuItemCornerRadius
                 button.layer.masksToBounds = true
-                
+
             } else {
                 let button = UIButton()
-                
+
                 button.backgroundColor = .magenta
 
                 datasource?.perimeterMenu(self, configurationFor: index, withButton: button)
 
                 button.frame = CGRect(origin: .zero, size: itemSize)
                 button.center = buttonPosition
-                
+
                 button.layer.cornerRadius = menuItemCornerRadius
                 button.layer.masksToBounds = true
-                
+
                 button.addTarget(self, action: #selector(itemTap), for: .touchUpInside)
-                
+
                 containerView.addSubview(button)
                 menu.append(button)
             }
         }
-        
+
         if let _ = datasource {
             // datasource was present while configuring buttons so no need to do it again
             configured = true
         }
     }
-    
+
     var buttonsPositions: [CGPoint] {
         var positions: [CGPoint] = []
-        
+
         for i in 0..<itemsCount {
             let p: CGPoint
             if menuState == .expanded {
@@ -387,17 +386,17 @@ public class PerimeterMenu: UIButton {
             }
             positions.append(p)
         }
-        
+
         return positions
     }
-    
+
     private func pointInCircle(radius: CGFloat, angle degrees: CGFloat) ->  CGPoint {
         let cosValue = cos(degrees * .pi / 180.0)
         let sinValue = sin(degrees * .pi / 180.0)
-        
+
         let x = (radius * cosValue) + containerView.bounds.width/2
         let y = (radius * sinValue) + containerView.bounds.height/2
-        
+
         return CGPoint(x: x, y: y)
     }
 }

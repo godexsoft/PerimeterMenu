@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'PerimeterMenu'
-  s.version          = '1.0'
+  s.version          = '1.1'
   s.summary          = 'Pinterest inspired long press menu button.'
   s.description      = <<-DESC
 PerimeterMenu is a fancy animated menu for iOS applications written in swift with Storyboard design support.

@@ -34,7 +34,6 @@ extension PerimeterMenu {
     }
 
     func expandMenu(animated: Bool) {
-        print("expand menu")
         let animations: VoidBlock = { [weak self] in
             guard let sself = self else { return }
             for (index, button) in sself.menu.enumerated() {
@@ -51,7 +50,6 @@ extension PerimeterMenu {
     }
 
     func collapseMenu(animated: Bool) {
-        print("collapse menu")
         let animations: VoidBlock = { [weak self] in
             guard let sself = self else { return }
             sself.enableGestures(false)
