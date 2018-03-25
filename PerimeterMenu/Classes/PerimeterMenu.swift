@@ -227,11 +227,6 @@ public class PerimeterMenu: UIButton {
     private var tapGesture: UITapGestureRecognizer!
     private var longPressGesture: UILongPressGestureRecognizer!
 
-    func enableGestures(_ enable: Bool) {
-        tapGesture.isEnabled = enable
-        longPressGesture.isEnabled = enable
-    }
-
     @objc private func onTap(sender: UITapGestureRecognizer) {
         guard onButtonTap?(self) ?? true else { return }
         invertState(animated: true)
@@ -330,7 +325,7 @@ public class PerimeterMenu: UIButton {
         guard let containerSuperview = containerSuperview, let superview = superview else { return }
 
         if containerView.superview == nil {
-            containerSuperview.addSubview(containerView)
+            containerSuperview.insertSubview(containerView, belowSubview: self)
         }
 
         let containerFrame = superview.convert(containerFrameInMenuSuperview, to: containerSuperview)

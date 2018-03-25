@@ -26,45 +26,60 @@ extension PerimeterMenu {
 
     func showMenu(for state: State, animated: Bool) {
         switch state {
-        case .expanded:
-            expandMenu(animated: animated)
-        case .collapsed:
-            collapseMenu(animated: animated)
+            case .expanded:
+                expandMenu(animated: animated)
+            case .collapsed:
+                collapseMenu(animated: animated)
         }
     }
 
     func expandMenu(animated: Bool) {
         let animations: VoidBlock = { [weak self] in
             guard let sself = self else { return }
+            
             for (index, button) in sself.menu.enumerated() {
                 button.center = sself.buttonsPositions[index]
                 button.alpha = 1.0
             }
+            
             sself.bluringView?.alpha = 1.0
         }
+        
+        let completion: (Bool) -> Void = { [weak self] _ in
+            guard let sself = self else { return }
+        
+            sself.menu.forEach {
+                $0.isEnabled = true
+            }
+        }
+        
         addBluringViewIfNeeded()
 
         containerView.isHidden = false
         let duration = animated ? animationDuration : 0
+        
         animator.animate(withDuration: duration,
                          animations: animations,
-                         completion: nil)
+                         completion: completion)
     }
 
     func collapseMenu(animated: Bool) {
         let animations: VoidBlock = { [weak self] in
             guard let sself = self else { return }
-            sself.enableGestures(false)
+            
             sself.menu.forEach {
+                $0.isEnabled = false
                 $0.center = sself.centerPoint
                 $0.alpha = 0.0
             }
+            
             sself.bluringView?.alpha = 0.0
         }
+        
         let completion: (Bool) -> Void = { [weak self] _ in
             guard let sself = self else { return }
+            
             sself.containerView.isHidden = true
-            sself.enableGestures(true)
             sself.removeBluringViewIfNeeded()
         }
 
