@@ -9,7 +9,13 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
+## Example in a gif
+
+![Example gif here](https://media.giphy.com/media/ywlOFzFBnkgrPUL1jZ/giphy.gif)
+
 ## Requirements
+
+iOS 10+
 
 ## Installation
 

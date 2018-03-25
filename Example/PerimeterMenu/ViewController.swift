@@ -20,6 +20,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var menuCornerRadiusLabel: UILabel!
     @IBOutlet weak var itemsCornerRadiusLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var blurEffectLabel: UILabel!
     
     @IBOutlet weak var itemCountStepper: UIStepper!
     @IBOutlet weak var animationStyleSegment: UISegmentedControl!
@@ -28,6 +29,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var menuCornerRadiusStepper: UIStepper!
     @IBOutlet weak var itemsCornerRadiusStepper: UIStepper!
     @IBOutlet weak var distanceStepper: UIStepper!
+    @IBOutlet weak var blurEffectSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,21 +43,11 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func onPreset1(_ sender: UIButton) {
-        print("preset1")
-    }
-    
-    @IBAction func onPreset2(_ sender: UIButton) {
-        print("preset2")
-    }
-    
-    @IBAction func onPreset3(_ sender: UIButton) {
-        print("preset3")
-    }
-    
     @IBAction func onItemCountChanged(_ sender: UIStepper) {
         let newValue = sender.value
         print("items count changed to \(newValue)")
+        itemCountLabel.text = "Items count (\(newValue)):"
+        
         menu.itemsCount = UInt(newValue)
         menu.reconfigure()
     }
@@ -63,30 +55,42 @@ class ViewController: UIViewController {
     @IBAction func onAnimationStyleChanged(_ sender: UISegmentedControl) {
         let newValue = sender.selectedSegmentIndex
         print("animation style changed to \(newValue)")
+        animationStyleLabel.text = "Animation style (\(newValue)):"
+        
         menu.animationStyle = newValue
     }
     
     @IBAction func animationDurationChanged(_ sender: UIStepper) {
         let newValue = sender.value
         print("duration changed to \(newValue)")
+        
+        let str = String(format: "%.1f", newValue)
+        animationDurationLabel.text = "Animation duration (\(str)):"
+        
         menu.animationDuration = newValue
     }
     
     @IBAction func onBorderWidthChanged(_ sender: UIStepper) {
         let newValue = sender.value
         print("border width changed to \(newValue)")
+        borderWidthLabel.text = "Border width (\(newValue)):"
+        
         menu.borderWidth = CGFloat(newValue)
     }
     
     @IBAction func menuCornerRadiusChanged(_ sender: UIStepper) {
         let newValue = sender.value
         print("corner radius changed to \(newValue)")
+        menuCornerRadiusLabel.text = "Menu corner radius (\(newValue)):"
+        
         menu.cornerRadius = CGFloat(newValue)
     }
     
     @IBAction func itemsCornerRadiusChanged(_ sender: UIStepper) {
         let newValue = sender.value
         print("item corner radius changed to \(newValue)")
+        itemsCornerRadiusLabel.text = "Items corner radius (\(newValue)):"
+        
         menu.menuItemCornerRadius = CGFloat(newValue)
         menu.reconfigure()
     }
@@ -94,9 +98,20 @@ class ViewController: UIViewController {
     @IBAction func distanceChanged(_ sender: UIStepper) {
         let newValue = sender.value
         print("distance changed to \(newValue)")
+        distanceLabel.text = "Distance (\(newValue)):"
+        
         menu.distanceFromButton = CGFloat(newValue)
         menu.reconfigure()
     }    
+    
+    @IBAction func blurEffectChanged(_ sender: UISwitch) {
+        let newValue = sender.isOn
+        print("blur effect changed to \(newValue)")
+        blurEffectLabel.text = "Blur effect (\(newValue)):"
+        
+        menu.hasBlurEffect = newValue
+        menu.reconfigure()
+    }
 }
 
 extension ViewController: PerimeterMenuDatasource {
@@ -105,17 +120,11 @@ extension ViewController: PerimeterMenuDatasource {
                        withButton button: UIButton) {
         
         button.setTitle("\(itemPosition)", for: .normal)
-        button.backgroundColor = #colorLiteral(red: 0.5531024744, green: 0.7356249527, blue: 1, alpha: 0.790425755)
-        
-//        let bg = CAGradientLayer()
-//
-//        bg.frame = button.bounds
-//        bg.colors = [UIColor.red.cgColor, UIColor.green.cgColor]
-//
-//        button.layer.addSublayer(bg)
+        button.backgroundColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
+        button.setTitleColor(.black, for: .normal)
         
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.blue.cgColor                
+        button.layer.borderColor = UIColor.darkGray.cgColor
     }
 }
 
