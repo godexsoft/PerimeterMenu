@@ -197,8 +197,9 @@ public class PerimeterMenu: UIButton {
     }
 
     var menu = [UIButton]()
+    var bluringView: PerimeterMenuBluringContainerView?
     lazy var containerView: UIView = {
-        let cv = PerimeterMenuContainerView(frame: containerFrame)
+        let cv = PerimeterMenuContainerView(frame: containerFrameInMenuSuperview)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.isUserInteractionEnabled = true
         cv.backgroundColor = .clear
@@ -215,7 +216,7 @@ public class PerimeterMenu: UIButton {
         }
     }
 
-    private func invertState(animated: Bool) {
+    func invertState(animated: Bool) {
         menuState = menuState.inversed
         showMenu(for: menuState, animated: animated)
     }
@@ -309,7 +310,15 @@ public class PerimeterMenu: UIButton {
 
     // MARK: - Container view
 
-    private var containerFrame: CGRect {
+    var containerSuperview: UIView? {
+        #if !TARGET_INTERFACE_BUILDER
+            return UIApplication.shared.keyWindow
+        #else
+            return self.superview
+        #endif
+    }
+
+    private var containerFrameInMenuSuperview: CGRect {
         let containerOrigin = CGPoint(x: frame.origin.x - distanceFromButton - itemSize.width,
                                       y: frame.origin.y - distanceFromButton - itemSize.height)
         let containerSize = CGSize(width: bounds.width + distanceFromButton*2 + itemSize.width*2,
@@ -318,9 +327,13 @@ public class PerimeterMenu: UIButton {
     }
 
     private func regenerateContainer() {
-        if let superview = superview, containerView.superview == nil {
-            superview.addSubview(containerView)
+        guard let containerSuperview = containerSuperview, let superview = superview else { return }
+
+        if containerView.superview == nil {
+            containerSuperview.addSubview(containerView)
         }
+
+        let containerFrame = superview.convert(containerFrameInMenuSuperview, to: containerSuperview)
         containerView.frame = containerFrame
     }
 

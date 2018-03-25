@@ -40,7 +40,9 @@ extension PerimeterMenu {
                 button.center = sself.buttonsPositions[index]
                 button.alpha = 1.0
             }
+            sself.bluringView?.alpha = 1.0
         }
+        addBluringViewIfNeeded()
 
         containerView.isHidden = false
         let duration = animated ? animationDuration : 0
@@ -57,10 +59,13 @@ extension PerimeterMenu {
                 $0.center = sself.centerPoint
                 $0.alpha = 0.0
             }
+            sself.bluringView?.alpha = 0.0
         }
-        let completion: (Bool) -> Void = { _ in
-            self.containerView.isHidden = true
-            self.enableGestures(true)
+        let completion: (Bool) -> Void = { [weak self] _ in
+            guard let sself = self else { return }
+            sself.containerView.isHidden = true
+            sself.enableGestures(true)
+            sself.removeBluringViewIfNeeded()
         }
 
         let duration = animated ? animationDuration : 0

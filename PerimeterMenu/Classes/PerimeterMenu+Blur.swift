@@ -22,28 +22,31 @@
 
 import UIKit
 
-final class PerimeterMenuBluringContainerView: UIVisualEffectView {
+extension PerimeterMenu {
 
-    private var dismissAction: VoidBlock?
-
-    init(dismissAction: @escaping VoidBlock) {
-        self.dismissAction = dismissAction
-        let effect = UIBlurEffect(style: .dark)
-        super.init(effect: effect)
-        commonInit()
+    private func createBluringView() -> PerimeterMenuBluringContainerView {
+        let dismissAction: VoidBlock = { [weak self] in
+            self?.invertState(animated: true)
+        }
+        let view = PerimeterMenuBluringContainerView(dismissAction: dismissAction)
+        view.alpha = 0
+        return view
     }
 
-    private func commonInit() {
-        self.clipsToBounds = false
+    func addBluringViewIfNeeded() {
+        guard hasBlurEffect else { return }
+
+        bluringView = createBluringView()
+        if let bluringViewSuperview = containerSuperview, let bluringView = bluringView {
+            let frame = bluringViewSuperview.convert(bluringViewSuperview.frame,
+                                                     from: bluringViewSuperview)
+            bluringView.frame = frame
+            bluringViewSuperview.insertSubview(bluringView, belowSubview: containerView)
+        }
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        // Customizable if creating from IB
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        dismissAction?() ?? self.removeFromSuperview()
+    func removeBluringViewIfNeeded() {
+        bluringView?.removeFromSuperview()
+        bluringView = nil
     }
 }
