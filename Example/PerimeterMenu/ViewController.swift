@@ -13,6 +13,22 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var menu: PerimeterMenu!
     
+    @IBOutlet weak var itemCountLabel: UILabel!
+    @IBOutlet weak var animationStyleLabel: UILabel!
+    @IBOutlet weak var animationDurationLabel: UILabel!
+    @IBOutlet weak var borderWidthLabel: UILabel!
+    @IBOutlet weak var menuCornerRadiusLabel: UILabel!
+    @IBOutlet weak var itemsCornerRadiusLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
+    
+    @IBOutlet weak var itemCountStepper: UIStepper!
+    @IBOutlet weak var animationStyleSegment: UISegmentedControl!
+    @IBOutlet weak var animationDurationStepper: UIStepper!
+    @IBOutlet weak var borderWidthStepper: UIStepper!
+    @IBOutlet weak var menuCornerRadiusStepper: UIStepper!
+    @IBOutlet weak var itemsCornerRadiusStepper: UIStepper!
+    @IBOutlet weak var distanceStepper: UIStepper!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,6 +40,63 @@ class ViewController: UIViewController {
             return true
         }
     }
+    
+    @IBAction func onPreset1(_ sender: UIButton) {
+        print("preset1")
+    }
+    
+    @IBAction func onPreset2(_ sender: UIButton) {
+        print("preset2")
+    }
+    
+    @IBAction func onPreset3(_ sender: UIButton) {
+        print("preset3")
+    }
+    
+    @IBAction func onItemCountChanged(_ sender: UIStepper) {
+        let newValue = sender.value
+        print("items count changed to \(newValue)")
+        menu.itemsCount = UInt(newValue)
+        menu.reconfigure()
+    }
+    
+    @IBAction func onAnimationStyleChanged(_ sender: UISegmentedControl) {
+        let newValue = sender.selectedSegmentIndex
+        print("animation style changed to \(newValue)")
+        menu.animationStyle = newValue
+    }
+    
+    @IBAction func animationDurationChanged(_ sender: UIStepper) {
+        let newValue = sender.value
+        print("duration changed to \(newValue)")
+        menu.animationDuration = newValue
+    }
+    
+    @IBAction func onBorderWidthChanged(_ sender: UIStepper) {
+        let newValue = sender.value
+        print("border width changed to \(newValue)")
+        menu.borderWidth = CGFloat(newValue)
+    }
+    
+    @IBAction func menuCornerRadiusChanged(_ sender: UIStepper) {
+        let newValue = sender.value
+        print("corner radius changed to \(newValue)")
+        menu.cornerRadius = CGFloat(newValue)
+    }
+    
+    @IBAction func itemsCornerRadiusChanged(_ sender: UIStepper) {
+        let newValue = sender.value
+        print("item corner radius changed to \(newValue)")
+        menu.menuItemCornerRadius = CGFloat(newValue)
+        menu.reconfigure()
+    }
+    
+    @IBAction func distanceChanged(_ sender: UIStepper) {
+        let newValue = sender.value
+        print("distance changed to \(newValue)")
+        menu.distanceFromButton = CGFloat(newValue)
+        menu.reconfigure()
+    }    
 }
 
 extension ViewController: PerimeterMenuDatasource {
@@ -31,17 +104,18 @@ extension ViewController: PerimeterMenuDatasource {
                        configurationFor itemPosition: Int,
                        withButton button: UIButton) {
         
-        button.setTitle("xyu\(itemPosition)", for: .normal)
+        button.setTitle("\(itemPosition)", for: .normal)
+        button.backgroundColor = #colorLiteral(red: 0.5531024744, green: 0.7356249527, blue: 1, alpha: 0.790425755)
         
-        let bg = CAGradientLayer()
+//        let bg = CAGradientLayer()
+//
+//        bg.frame = button.bounds
+//        bg.colors = [UIColor.red.cgColor, UIColor.green.cgColor]
+//
+//        button.layer.addSublayer(bg)
         
-        bg.frame = button.bounds
-        bg.colors = [UIColor.red.cgColor, UIColor.green.cgColor]
-        
-        button.layer.insertSublayer(bg, at: 0) // bg
-        
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.red.cgColor                
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.blue.cgColor                
     }
 }
 

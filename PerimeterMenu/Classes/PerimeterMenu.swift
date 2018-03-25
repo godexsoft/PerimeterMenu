@@ -54,7 +54,12 @@ public class PerimeterMenu: UIButton {
     public func reconfigure() {
         configured = false
         lastHoveringButton = nil
-        menu.removeAll()
+        
+        menu.forEach { button in
+            button.removeFromSuperview()
+        }
+        menu = []
+        
         regenerateMenu()
     }
 
@@ -349,6 +354,7 @@ public class PerimeterMenu: UIButton {
             } else {
                 let button = UIButton()
 
+                // this is purely for storyboard visibility
                 button.backgroundColor = .magenta
 
                 datasource?.perimeterMenu(self, configurationFor: index, withButton: button)
