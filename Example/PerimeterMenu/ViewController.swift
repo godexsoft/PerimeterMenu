@@ -140,8 +140,8 @@ extension ViewController: PerimeterMenuDelegate {
                        at position: Int) {
         print("start hovering over \(position)")
 
-        UIView.animate(withDuration: 0.3) {
-            button.transform = CGAffineTransform(scaleX: 1.4, y: 1.4)
+        UIView.animate(withDuration: 0.15) {
+            button.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }
     }
     
@@ -150,7 +150,7 @@ extension ViewController: PerimeterMenuDelegate {
                        at position: Int) {
         print("end hovering over \(position)")
 
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.15) {
             button.transform = .identity
         }
     }
