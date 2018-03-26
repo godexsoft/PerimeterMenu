@@ -30,11 +30,7 @@ final class PerimeterMenuContainerView: UIView {
         case animating
     }
     
-    var state: State? {
-        didSet {
-            // TODO Anything here?
-        }
-    }
+    var state: State? 
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         guard state == .shown else { return nil }
