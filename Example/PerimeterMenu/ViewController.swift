@@ -154,4 +154,20 @@ extension ViewController: PerimeterMenuDelegate {
             button.transform = .identity
         }
     }
+    
+    func perimeterMenuWillCollapse(_ menu: PerimeterMenu) {
+        print("will collapse")
+    }
+    
+    func perimeterMenuWillExpand(_ menu: PerimeterMenu) {
+        print("will expand")
+    }
+    
+    func perimeterMenuDidCollapse(_ menu: PerimeterMenu) {
+        print("did collapse")
+    }
+    
+    func perimeterMenuDidExpand(_ menu: PerimeterMenu) {
+        print("did expand")
+    }
 }

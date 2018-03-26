@@ -34,6 +34,8 @@ extension PerimeterMenu {
     }
     
     func expandMenu(animated: Bool) {
+        self.delegate?.perimeterMenuWillExpand?(self)
+        
         let animations: VoidBlock = { [weak self] in
             guard let sself = self else { return }
             
@@ -49,6 +51,7 @@ extension PerimeterMenu {
             guard let sself = self else { return }
             
             sself.containerView.state = .shown
+            sself.delegate?.perimeterMenuDidExpand?(sself)
         }
         
         addBluringViewIfNeeded()
@@ -62,6 +65,8 @@ extension PerimeterMenu {
     }
     
     func collapseMenu(animated: Bool) {
+        self.delegate?.perimeterMenuWillCollapse?(self)
+        
         let animations: VoidBlock = { [weak self] in
             guard let sself = self else { return }
             
@@ -77,6 +82,7 @@ extension PerimeterMenu {
             guard let sself = self else { return }
             
             sself.containerView.state = .hidden
+            sself.delegate?.perimeterMenuDidCollapse?(sself)
             sself.removeBluringViewIfNeeded()
         }
         

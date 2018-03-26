@@ -35,5 +35,13 @@ import Foundation
     @objc optional func perimeterMenu(_ menu: PerimeterMenu,
                                       didEndHoveringOver button: UIButton,
                                       at position: Int)
+    
+    @objc optional func perimeterMenuWillCollapse(_ menu: PerimeterMenu)
+    
+    @objc optional func perimeterMenuDidCollapse(_ menu: PerimeterMenu)
+    
+    @objc optional func perimeterMenuWillExpand(_ menu: PerimeterMenu)
+    
+    @objc optional func perimeterMenuDidExpand(_ menu: PerimeterMenu)
 }
 
