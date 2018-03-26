@@ -29,9 +29,9 @@ struct SpringAnimator: MenuAnimator {
         if duration > 0 {
             UIView.animate(withDuration: duration,
                            delay: 0.0,
-                           usingSpringWithDamping: 0.6,
-                           initialSpringVelocity: 0.4,
-                           options: [.curveEaseOut],
+                           usingSpringWithDamping: 0.8,
+                           initialSpringVelocity: 0.2,
+                           options: [.beginFromCurrentState, .curveEaseOut],
                            animations: animations,
                            completion: completion)            
         } else {

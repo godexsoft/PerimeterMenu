@@ -24,7 +24,21 @@ import UIKit
 
 final class PerimeterMenuContainerView: UIView {
     
+    enum State {
+        case shown
+        case hidden
+        case animating
+    }
+    
+    var state: State? {
+        didSet {
+            // TODO Anything here?
+        }
+    }
+    
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        guard state == .shown else { return nil }
+        
         var hitsAnySubview = false
         for subview in subviews {
             if subview.frame.contains(point) {

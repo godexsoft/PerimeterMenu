@@ -198,7 +198,7 @@ public class PerimeterMenu: UIButton {
 
     var menu = [UIButton]()
     var bluringView: PerimeterMenuBluringContainerView?
-    lazy var containerView: UIView = {
+    lazy var containerView: PerimeterMenuContainerView = {
         let cv = PerimeterMenuContainerView(frame: containerFrameInMenuSuperview)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.isUserInteractionEnabled = true
@@ -325,7 +325,7 @@ public class PerimeterMenu: UIButton {
         guard let containerSuperview = containerSuperview, let superview = superview else { return }
 
         if containerView.superview == nil {
-            containerSuperview.insertSubview(containerView, belowSubview: self)
+            containerSuperview.addSubview(containerView)
         }
 
         let containerFrame = superview.convert(containerFrameInMenuSuperview, to: containerSuperview)

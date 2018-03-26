@@ -23,16 +23,16 @@
 import UIKit
 
 extension PerimeterMenu {
-
+    
     func showMenu(for state: State, animated: Bool) {
         switch state {
-            case .expanded:
-                expandMenu(animated: animated)
-            case .collapsed:
-                collapseMenu(animated: animated)
+        case .expanded:
+            expandMenu(animated: animated)
+        case .collapsed:
+            collapseMenu(animated: animated)
         }
     }
-
+    
     func expandMenu(animated: Bool) {
         let animations: VoidBlock = { [weak self] in
             guard let sself = self else { return }
@@ -47,28 +47,25 @@ extension PerimeterMenu {
         
         let completion: (Bool) -> Void = { [weak self] _ in
             guard let sself = self else { return }
-        
-            sself.menu.forEach {
-                $0.isEnabled = true
-            }
+            
+            sself.containerView.state = .shown
         }
         
         addBluringViewIfNeeded()
-
-        containerView.isHidden = false
+        
+        containerView.state = .animating
         let duration = animated ? animationDuration : 0
         
         animator.animate(withDuration: duration,
                          animations: animations,
                          completion: completion)
     }
-
+    
     func collapseMenu(animated: Bool) {
         let animations: VoidBlock = { [weak self] in
             guard let sself = self else { return }
             
             sself.menu.forEach {
-                $0.isEnabled = false
                 $0.center = sself.centerPoint
                 $0.alpha = 0.0
             }
@@ -79,22 +76,24 @@ extension PerimeterMenu {
         let completion: (Bool) -> Void = { [weak self] _ in
             guard let sself = self else { return }
             
-            sself.containerView.isHidden = true
+            sself.containerView.state = .hidden
             sself.removeBluringViewIfNeeded()
         }
-
+        
+        containerView.state = .animating
         let duration = animated ? animationDuration : 0
         animator.animate(withDuration: duration,
                          animations: animations,
                          completion: completion)
     }
-
+    
     var centerPoint: CGPoint {
         return CGPoint(x: containerView.bounds.width/2,
                        y: containerView.bounds.height/2)
     }
-
+    
     private var animator: MenuAnimator {
         return AnimatorFactory.createAnimator(forStyle: internalAnimationStyle)
     }
 }
+
