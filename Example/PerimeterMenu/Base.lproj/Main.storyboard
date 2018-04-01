@@ -60,7 +60,7 @@
                                             <userDefinedRuntimeAttribute type="number" keyPath="menuItemCornerRadius">
                                                 <real key="value" value="30"/>
                                             </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isExpanded" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isExpanded" value="YES"/>
                                             <userDefinedRuntimeAttribute type="number" keyPath="animationStyle">
                                                 <integer key="value" value="0"/>
                                             </userDefinedRuntimeAttribute>
