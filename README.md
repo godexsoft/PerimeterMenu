@@ -74,7 +74,6 @@ __Note:__ Please make sure you specify/connect your delegate and datasource eith
 There are two callbacks available on the PerimeterMenu instance. Both are __optional__.
 
 - __onButtonTap__ is called when the PerimeterMenu main button is tapped.
-
 - __onButtonLongPress__ is called when the PerimeterMenu main button is long pressed.
 
 Both callbacks are expected to __return a boolean__.
