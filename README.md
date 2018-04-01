@@ -64,7 +64,8 @@ func perimeterMenuWillExpand(_ menu: PerimeterMenu)
 
 func perimeterMenuDidCollapse(_ menu: PerimeterMenu)
 
-func perimeterMenuDidExpand(_ menu: PerimeterMenu)```
+func perimeterMenuDidExpand(_ menu: PerimeterMenu)
+```
 
 __Note:__ Please make sure you specify/connect your delegate and datasource either thru code or thru the storyboard.
 
