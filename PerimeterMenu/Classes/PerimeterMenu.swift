@@ -116,7 +116,7 @@ public class PerimeterMenu: UIButton {
     }
     
     @IBInspectable
-    public var menuItemCornerRadius: CGFloat = 0 {
+    public var itemCornerRadius: CGFloat = 0 {
         didSet {
             regenerateMenu()
         }
@@ -151,12 +151,19 @@ public class PerimeterMenu: UIButton {
     }
     
     @IBInspectable
-    public var itemDimensionSize: CGFloat = 30 {
+    public var itemWidth: CGFloat = 30 {
         didSet {
             regenerateMenu()
         }
     }
     
+    @IBInspectable
+    public var itemHeight: CGFloat = 30 {
+        didSet {
+            regenerateMenu()
+        }
+    }
+
     @IBInspectable
     public var availableAngle: CGFloat = 180 {
         didSet {
@@ -196,7 +203,7 @@ public class PerimeterMenu: UIButton {
     // MARK: - Properties
     
     private var itemSize: CGSize {
-        return CGSize(width: itemDimensionSize, height: itemDimensionSize)
+        return CGSize(width: itemWidth, height: itemHeight)
     }
     
     var menu = [UIButton]()
@@ -359,7 +366,7 @@ public class PerimeterMenu: UIButton {
                 button.frame = CGRect(origin: .zero, size: itemSize)
                 button.center = buttonPosition
                 
-                button.layer.cornerRadius = menuItemCornerRadius
+                button.layer.cornerRadius = itemCornerRadius
                 button.layer.masksToBounds = true
                 
             } else {
@@ -373,7 +380,7 @@ public class PerimeterMenu: UIButton {
                 button.frame = CGRect(origin: .zero, size: itemSize)
                 button.center = buttonPosition
                 
-                button.layer.cornerRadius = menuItemCornerRadius
+                button.layer.cornerRadius = itemCornerRadius
                 button.layer.masksToBounds = true
                 
                 button.addTarget(self, action: #selector(itemTap), for: .touchUpInside)
