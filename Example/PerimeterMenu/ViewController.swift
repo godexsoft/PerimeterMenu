@@ -91,7 +91,6 @@ class ViewController: UIViewController {
         print("item corner radius changed to \(newValue)")
         itemsCornerRadiusLabel.text = "Items corner radius (\(newValue)):"
         
-        menu.menuItemCornerRadius = CGFloat(newValue)
         menu.reconfigure()
     }
     

@@ -24,7 +24,7 @@ import UIKit
 
 extension PerimeterMenu {
     
-    func showMenu(for state: State, animated: Bool) {
+    func showMenu(for state: PerimeterMenuState, animated: Bool) {
         switch state {
         case .expanded:
             expandMenu(animated: animated)

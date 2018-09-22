@@ -27,11 +27,11 @@ public class PerimeterMenu: UIButton {
     
     public typealias ActionCallback = (_ sender: UIButton) -> Bool
     
-    enum State {
+    enum PerimeterMenuState {
         case expanded
         case collapsed
         
-        var inversed: State {
+        var inversed: PerimeterMenuState {
             return self == .expanded ? .collapsed : .expanded
         }
     }
@@ -220,7 +220,7 @@ public class PerimeterMenu: UIButton {
     
     private var configured = false
     
-    private var menuState: State = .collapsed {
+    private var menuState: PerimeterMenuState = .collapsed {
         didSet {
             guard menuState != oldValue else { return }
         }
