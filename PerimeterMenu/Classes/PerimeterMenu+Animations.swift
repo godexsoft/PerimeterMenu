@@ -39,7 +39,7 @@ extension PerimeterMenu {
         let animations: VoidBlock = { [weak self] in
             guard let sself = self else { return }
             
-            for (index, button) in sself.menu.enumerated() {
+            for (index, button) in sself.menuButtons.enumerated() {
                 button.center = sself.buttonsPositions[index]
                 button.alpha = 1.0
             }
@@ -70,7 +70,7 @@ extension PerimeterMenu {
         let animations: VoidBlock = { [weak self] in
             guard let sself = self else { return }
             
-            sself.menu.forEach {
+            sself.menuButtons.forEach {
                 $0.center = sself.centerPoint
                 $0.alpha = 0.0
             }

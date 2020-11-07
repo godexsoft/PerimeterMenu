@@ -55,10 +55,10 @@ public class PerimeterMenu: UIButton {
         configured = false
         lastHoveringButton = nil
         
-        menu.forEach { button in
+        menuButtons.forEach { button in
             button.removeFromSuperview()
         }
-        menu = []
+        menuButtons = []
         
         regenerateMenu()
     }
@@ -206,7 +206,7 @@ public class PerimeterMenu: UIButton {
         return CGSize(width: itemWidth, height: itemHeight)
     }
     
-    var menu = [UIButton]()
+    var menuButtons = [UIButton]()
     var bluringView: PerimeterMenuBluringContainerView?
     lazy var containerView: PerimeterMenuContainerView = {
         let cv = PerimeterMenuContainerView(frame: containerFrameInMenuSuperview)
@@ -247,7 +247,7 @@ public class PerimeterMenu: UIButton {
         
         let endLastButtonHoveringIfNeeded: VoidBlock = {
             if let button = self.lastHoveringButton,
-                let lastHoveringButtonIndex = self.menu.index(of: button) {
+                let lastHoveringButtonIndex = self.menuButtons.index(of: button) {
                 self.delegate?.perimeterMenu?(self,
                                               didEndHoveringOver: button,
                                               at: lastHoveringButtonIndex)
@@ -263,7 +263,7 @@ public class PerimeterMenu: UIButton {
         case .changed:
             let location = sender.location(ofTouch: 0, in: containerView)
             if let button = containerView.hitTest(location, with: nil) as? UIButton,
-                let index = menu.index(of: button) {
+                let index = menuButtons.index(of: button) {
                 if button != lastHoveringButton {
                     endLastButtonHoveringIfNeeded()
                     lastHoveringButton = button
@@ -278,7 +278,7 @@ public class PerimeterMenu: UIButton {
         case .ended:
             let location = sender.location(ofTouch: 0, in: containerView)
             if let button = containerView.hitTest(location, with: nil) as? UIButton,
-                let index = menu.index(of: button) {
+                let index = menuButtons.index(of: button) {
                 
                 delegate?.perimeterMenu?(self, didSelectItem: button, at: index)
             }
@@ -293,7 +293,7 @@ public class PerimeterMenu: UIButton {
     }
     
     @objc private func itemTap(sender: UIButton) {
-        if let buttonIndex = menu.index(of: sender) {
+        if let buttonIndex = menuButtons.index(of: sender) {
             invertState(animated: true)
             delegate?.perimeterMenu?(self, didSelectItem: sender, at: buttonIndex)
         }
@@ -358,8 +358,8 @@ public class PerimeterMenu: UIButton {
         
         for (index, buttonPosition) in buttonsPositions.enumerated() {
             
-            if index < menu.count {
-                let button = menu[index]
+            if index < menuButtons.count {
+                let button = menuButtons[index]
                 
                 datasource?.perimeterMenu(self, configurationFor: index, withButton: button)
                 
@@ -386,7 +386,7 @@ public class PerimeterMenu: UIButton {
                 button.addTarget(self, action: #selector(itemTap), for: .touchUpInside)
                 
                 containerView.addSubview(button)
-                menu.append(button)
+                menuButtons.append(button)
             }
             
             showMenu(for: self.menuState, animated: false)
